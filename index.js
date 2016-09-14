@@ -8,7 +8,8 @@ import {
 	Animated,
 	Platform,
 	Dimensions,
-	PickerIOS
+	PickerIOS,
+	TouchableOpacity
 } from 'react-native';
 
 import PickerAndroid from 'react-native-picker-android';
@@ -165,7 +166,7 @@ export default class PickerAny extends Component {
 			this._slideUp();
 		}
 	}
-	
+
 	toggle(){
 		this._toggle();
 	}
@@ -417,22 +418,13 @@ export default class PickerAny extends Component {
 			}]}>
 				{mask}
 				<View style={[styles.pickerBox, this.state.style]}>
-					<View style={[styles.pickerToolbar, this.state.pickerToolBarStyle, {width: this.state.style.width || width}]}>
-						<View style={styles.pickerCancelBtn}>
-							<Text style={[styles.pickerFinishBtnText, this.state.pickerBtnStyle]}
-								onPress={this._pickerCancel.bind(this)}>{this.state.pickerCancelBtnText}</Text>
-						</View>
-						<Text style={[styles.pickerTitle, this.state.pickerTitleStyle]} numberOfLines={1}>
-							{this.state.pickerTitle}
-						</Text>
-						<View style={styles.pickerFinishBtn}>
-							<Text style={[styles.pickerFinishBtnText, this.state.pickerBtnStyle]}
-								onPress={this._pickerFinish.bind(this)}>{this.state.pickerBtnText}</Text>
-						</View>
-					</View>
 					<View style={[styles.pickerWrap, {width: this.state.style.width || width}]}>
 						{this._renderWheel(this.state.pickerData)}
 					</View>
+					<TouchableOpacity onPress={this._pickerFinish.bind(this)}>
+						<Text style={styles.buttonTextStyle}>确定
+						</Text>
+					</TouchableOpacity>
 				</View>
 			</Animated.View>
 		);
@@ -450,7 +442,7 @@ let styles = StyleSheet.create({
 		position: 'absolute',
 		bottom: 0,
 		left: 0,
-		backgroundColor: '#bdc0c7'
+		backgroundColor: '#ededed'
 	},
 	mask: {
 		position: 'absolute',
@@ -507,5 +499,14 @@ let styles = StyleSheet.create({
 	pickerFinishBtnText: {
 		fontSize: 16,
 		color: '#149be0'
-	}
+	},
+	buttonTextStyle: {
+		flex:1,
+		height:50,
+		backgroundColor:'#c6252e',
+		textAlign:'center',
+		fontSize:16,
+		color:'white',
+		paddingTop:15,
+	},
 });
