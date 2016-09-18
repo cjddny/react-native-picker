@@ -360,6 +360,9 @@ export default class PickerAny extends Component {
 						selectedValue={this.state.secondPickedDataIndex}
 						onValueChange={(index) => {
 							let thirdWheelData = pickerData[this.state.firstPickedData][this.state.secondWheelData[index]];
+							if (typeof thirdWheelData === 'string') {
+								thirdWheelData = null;
+							}
 							if(thirdWheelData){
 								this.pickedValue.splice(1, 2, this.state.secondWheelData[index], thirdWheelData[0]);
 							}
