@@ -39,7 +39,8 @@ export default class PickerAny extends Component {
 		onPickerDone: PropTypes.func,
 		onPickerCancel: PropTypes.func,
 		onValueChange: PropTypes.func,
-		btnStyle: TouchableOpacity.propTypes.style,
+		btnStyle: View.propTypes.style,
+		buttonTextStyle: Text.propTypes.style,
 	};
 
 	static defaultProps = {
@@ -425,8 +426,8 @@ export default class PickerAny extends Component {
 					<View style={[styles.pickerWrap, {width: this.state.style.width || width}]}>
 						{this._renderWheel(this.state.pickerData)}
 					</View>
-					<TouchableOpacity style={this.props.btnStyle} onPress={this._pickerFinish.bind(this)}>
-						<Text style={styles.buttonTextStyle}>确定</Text>
+					<TouchableOpacity style={[styles.btnStyle,this.props.btnStyle]} onPress={this._pickerFinish.bind(this)}>
+						<Text style={[styles.buttonTextStyle,this.props.buttonTextStyle]}>确定</Text>
 					</TouchableOpacity>
 				</View>
 			</Animated.View>
@@ -504,12 +505,14 @@ let styles = StyleSheet.create({
 		color: '#149be0'
 	},
 	buttonTextStyle: {
-		flex:1,
-		height:50,
-		backgroundColor:'#c6252e',
 		textAlign:'center',
 		fontSize:16,
 		color:'white',
-		paddingTop:15,
 	},
+	btnStyle : {
+		height:50,
+		backgroundColor:'#c6252e',
+		alignItems:'center',
+		justifyContent:'center',
+	}
 });
