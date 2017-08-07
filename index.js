@@ -41,6 +41,7 @@ export default class PickerAny extends Component {
 		onValueChange: PropTypes.func,
 		btnStyle: View.propTypes.style,
 		buttonTextStyle: Text.propTypes.style,
+    showToolBar: PropTypes.bool,
 	};
 
 	static defaultProps = {
@@ -51,6 +52,7 @@ export default class PickerAny extends Component {
 		pickerCancelBtnText: 'Cancel',
 		showMask: false,
 		showDuration: 300,
+    showToolBar: false,
 		onPickerDone: ()=>{},
 		onPickerCancel: ()=>{},
 		onValueChange: ()=>{}
@@ -407,12 +409,25 @@ export default class PickerAny extends Component {
 	}
 
 	render(){
+    let { showToolBar } = this.props;
 
 		let mask = this.state.showMask ? (
 			<View style={styles.mask} >
 				<Text style={{width: width, height: height}} onPress={this._pickerCancel.bind(this)}></Text>
 			</View>
 		) : null;
+
+    let topBar, bottomOperation;
+    if (showToolBar) {
+      topBar = <View style={styles.pickerToolbar}>
+        <TouchableOpacity onPress={this._pickerCancel.bind(this)}><Text style={styles.pickerFinishBtnText}>取消</Text></TouchableOpacity>
+        <TouchableOpacity onPress={this._pickerFinish.bind(this)}><Text style={styles.pickerFinishBtnText}>完成</Text></TouchableOpacity>
+      </View>;
+    } else {
+      bottomOperation = <TouchableOpacity style={[styles.btnStyle,this.props.btnStyle]} onPress={this._pickerFinish.bind(this)}>
+        <Text style={[styles.buttonTextStyle,this.props.buttonTextStyle]}>确定</Text>
+      </TouchableOpacity>;
+    }
 
 		return (
 			<Animated.View style={[styles.picker, {
@@ -423,12 +438,11 @@ export default class PickerAny extends Component {
 			}]}>
 				{mask}
 				<View style={[styles.pickerBox, this.state.style]}>
+          {topBar}
 					<View style={[styles.pickerWrap, {width: this.state.style.width || width}]}>
 						{this._renderWheel(this.state.pickerData)}
 					</View>
-					<TouchableOpacity style={[styles.btnStyle,this.props.btnStyle]} onPress={this._pickerFinish.bind(this)}>
-						<Text style={[styles.buttonTextStyle,this.props.buttonTextStyle]}>确定</Text>
-					</TouchableOpacity>
+          {bottomOperation}
 				</View>
 			</Animated.View>
 		);
@@ -446,7 +460,7 @@ let styles = StyleSheet.create({
 		position: 'absolute',
 		bottom: 0,
 		left: 0,
-		backgroundColor: '#ededed'
+		backgroundColor: 'white'
 	},
 	mask: {
 		position: 'absolute',
@@ -463,12 +477,14 @@ let styles = StyleSheet.create({
 	},
 	pickerToolbar: {
 		height: 30,
-		backgroundColor: '#e6e6e6',
 		flexDirection: 'row',
 		borderTopWidth: 1,
 		borderBottomWidth: 1,
-		borderColor: '#c3c3c3',
-		alignItems: 'center'
+		borderColor: '#e5e5e5',
+		alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingLeft: 10,
+    paddingRight: 10,
 	},
 	pickerBtnView: {
 		flex: 1,
@@ -501,8 +517,8 @@ let styles = StyleSheet.create({
 		marginRight: 20
 	},
 	pickerFinishBtnText: {
-		fontSize: 16,
-		color: '#149be0'
+		fontSize: 14,
+		color: '#333333'
 	},
 	buttonTextStyle: {
 		textAlign:'center',
@@ -511,7 +527,7 @@ let styles = StyleSheet.create({
 	},
 	btnStyle : {
 		height:50,
-		backgroundColor:'#c6252e',
+		backgroundColor:'#e76464',
 		alignItems:'center',
 		justifyContent:'center',
 	}
