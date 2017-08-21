@@ -409,7 +409,7 @@ export default class PickerAny extends Component {
 	}
 
 	render(){
-    let { showToolBar } = this.props;
+    let { showToolBar, innerStyles } = this.props;
 
 		let mask = this.state.showMask ? (
 			<View style={styles.mask} >
@@ -439,7 +439,7 @@ export default class PickerAny extends Component {
 				{mask}
 				<View style={[styles.pickerBox, this.state.style]}>
           {topBar}
-					<View style={[styles.pickerWrap, {width: this.state.style.width || width}]}>
+					<View style={[styles.pickerWrap, {width: this.state.style.width || width}, innerStyles]}>
 						{this._renderWheel(this.state.pickerData)}
 					</View>
           {bottomOperation}
@@ -470,7 +470,7 @@ let styles = StyleSheet.create({
 		width: width
 	},
 	pickerWrap: {
-		flexDirection: 'row'
+		flexDirection: 'row',
 	},
 	pickerWheel: {
 		flex: 1
