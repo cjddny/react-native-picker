@@ -42,6 +42,7 @@ export default class PickerAny extends Component {
 		btnStyle: View.propTypes.style,
 		buttonTextStyle: Text.propTypes.style,
     showToolBar: PropTypes.bool,
+    toolbar: PropTypes.element,
 	};
 
 	static defaultProps = {
@@ -198,12 +199,12 @@ export default class PickerAny extends Component {
 
 	_pickerCancel(){
 		this._toggle();
-		this.state.onPickerCancel();
+		this.state.onPickerCancel && this.state.onPickerCancel();
 	}
 
 	_pickerFinish(){
 		this._toggle();
-		this.state.onPickerDone(this.pickedValue);
+		this.state.onPickerDone && this.state.onPickerDone(this.pickedValue);
 	}
 
 	_renderParallelWheel(pickerData){
@@ -409,7 +410,7 @@ export default class PickerAny extends Component {
 	}
 
 	render(){
-    let { showToolBar, innerStyles } = this.props;
+    let { showToolBar, innerStyles, toolbar } = this.props;
 
 		let mask = this.state.showMask ? (
 			<View style={styles.mask} >
@@ -419,7 +420,7 @@ export default class PickerAny extends Component {
 
     let topBar, bottomOperation;
     if (showToolBar) {
-      topBar = <View style={styles.pickerToolbar}>
+      topBar = toolbar || <View style={styles.pickerToolbar}>
         <TouchableOpacity onPress={this._pickerCancel.bind(this)}><Text style={styles.pickerFinishBtnText}>取消</Text></TouchableOpacity>
         <TouchableOpacity onPress={this._pickerFinish.bind(this)}><Text style={styles.pickerFinishBtnText}>完成</Text></TouchableOpacity>
       </View>;
